@@ -23,13 +23,12 @@ public class GameObject implements IRenderable{
 		return gameObjectShape;
 	}
 
-	protected float x, y;
+	//protected float x, y;
 	protected float width, height;
 	protected float r, g, b, alpha;
 	protected String shapeName;
 	
 	public GameObject(PApplet p) {
-		// TODO Auto-generated constructor stub
 		parent = p;
 	}
 	
@@ -43,8 +42,6 @@ public class GameObject implements IRenderable{
 		this.shapeName = shapeName;
 		if(shapeName == "Rectangle")
 		{
-			this.x = x;
-			this.y = y;
 			this.width = width;
 			this.height = height;
 			gameObjectShape = new Rectangle((int)x, (int)y, (int)width, (int)height);
@@ -63,7 +60,8 @@ public class GameObject implements IRenderable{
 	public void display() {
 		parent.fill(r, g, b);
 		if(shapeName == "Rectangle") {
-			parent.rect(x, y, width, height);
+			parent.rect(((Rectangle)gameObjectShape).x, ((Rectangle)gameObjectShape).y, 
+					((Rectangle)gameObjectShape).width, ((Rectangle)gameObjectShape).height);
 		}
 	}
 	

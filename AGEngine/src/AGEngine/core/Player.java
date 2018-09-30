@@ -1,5 +1,6 @@
 package AGEngine.core;
 
+import java.awt.Rectangle;
 import java.awt.geom.Area;
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class Player extends GameObject implements IMovable, ICollidable{
 	/** Vector that describes the velocity of the player object */
 	private PVector _velocity;
 	
+	// Reference list for all GameObjects in the scene for collision detection
 	private List<GameObject> _gameObjects;
 	public void set_gameObjects(List<GameObject> gameObjects) {
 		this._gameObjects = gameObjects;
@@ -31,8 +33,10 @@ public class Player extends GameObject implements IMovable, ICollidable{
 	private boolean _right;
 	private float _ground;
 	
+	// Controls jump speed
 	private float _jumpSpeed;
-
+	
+	// Controls gravity
 	private float _gravity;
 	
 	public float get_jumpSpeed() {
@@ -87,21 +91,20 @@ public class Player extends GameObject implements IMovable, ICollidable{
 		_right = false;
 		
 		// Set ground to align with center of rectangle
-		_ground = parent.height - this.height/2;
-		_gravity = 0.5f;
+		_ground = parent.height - this.height;
+		_gravity = 1;
 	}
 	
 	@Override
 	public void display() {
-		parent.rectMode(PConstants.CENTER);
-		x = PApplet.constrain(x, width/2, parent.width - width/2);
-		y = PApplet.constrain(y, height/2, parent.height - height/2);
+		//parent.rectMode(PConstants.CENTER);
+		if(shapeName == "Rectangle") {
+			((Rectangle)gameObjectShape).x = (int)PApplet.constrain(((Rectangle)gameObjectShape).x,
+					0, parent.width - width);
+			((Rectangle)gameObjectShape).y = (int)PApplet.constrain(((Rectangle)gameObjectShape).y,
+					0, parent.height - height);
+		}
 		super.display();
-	}
-	
-	@Override
-	public void createShape(String shapeName, float x, float y, float width, float height) {
-		super.createShape(shapeName, x, y, width, height);
 	}
 	
 	/**This method calls various methods every frame like an update */
@@ -113,34 +116,36 @@ public class Player extends GameObject implements IMovable, ICollidable{
 
 	/**This method makes the gameObject be under a constant influence of gravity */
 	private void gravity() {
-		// Only apply gravity if above ground (since y positive is down we use < ground)
-		if(y < _ground - height/2) {
-			y += _gravity;
-		}
-		else {
-			y = _ground - height/2;
-		}
-		// If on the ground and "jump" key is pressed upward velocity to the jump speed!
-		if (y >= _ground && _up)
-		{
-			y -= get_jumpSpeed();
+		if(shapeName == "Rectangle") {
+			// Only apply gravity if above ground (since y positive is down we use < ground)
+			if(((Rectangle)gameObjectShape).y < _ground - height) {
+				((Rectangle)gameObjectShape).y += _gravity;
+			}
+			// If on the ground and "jump" key is pressed upward velocity to the jump speed!
+			if (((Rectangle)gameObjectShape).y >= _ground && _up)
+			{
+				((Rectangle)gameObjectShape).y -= get_jumpSpeed();
+			}
 		}
 	}
 
 	@Override
 	public void updatePosition() {
+		// Checks if there hasn't been a collision then accept user input
 		if(!isColliding()) {
-			if(_up){  
-				y -= _velocity.y;  
-			}  
-			if(_down){  
-				y += _velocity.y;  
-			}  
-			if(_left){  
-				x -= _velocity.x;
-			}  
-			if(_right){  
-				x += _velocity.x;  
+			if(shapeName == "Rectangle") {
+				if(_up){  
+					((Rectangle)gameObjectShape).y -= _velocity.y;  
+				}  
+				if(_down){  
+					((Rectangle)gameObjectShape).y += _velocity.y;  
+				}  
+				if(_left){  
+					((Rectangle)gameObjectShape).x -= _velocity.x;
+				}  
+				if(_right){  
+					((Rectangle)gameObjectShape).x += _velocity.x;  
+				}
 			}
 		}
 		
@@ -150,13 +155,7 @@ public class Player extends GameObject implements IMovable, ICollidable{
 	@Override
 	public boolean isColliding() {
 		for(GameObject gObject : _gameObjects) {
-			/*Area areaA = new Area(gameObjectShape);
-			areaA.intersect(new Area(gObject.getGameObjectShape()));
-			if(!areaA.isEmpty()) {
-				return true;
-			}*/
 			if(this.gameObjectShape.getBounds2D().intersects(gObject.getGameObjectShape().getBounds2D())) {
-				System.out.println("Colliding with " + gObject.toString());
 				return true;
 			}
 		}
