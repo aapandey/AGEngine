@@ -8,6 +8,14 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import processing.core.PApplet;
 
+/* Inspiration and explicit code from following sources:
+ * https://www.geeksforgeeks.org/introducing-threads-socket-programming-java/
+ * http://pirate.shu.edu/~wachsmut/Teaching/CSAS2214/Virtual/Lectures/chat-client-server.html
+ * https://stackoverflow.com/questions/27736175/how-to-send-receive-objects-using-sockets-in-java
+ * https://www.developer.com/design/article.php/10925_3604491_3/Objects-and-ClientServer-Connections.htm
+ * https://www.geeksforgeeks.org/difference-hashmap-concurrenthashmap/
+ *  */
+
 public class ServerGame extends PApplet implements Runnable{
 	
 	private static CopyOnWriteArrayList<ServerGameInputThread> _client_input;

@@ -7,6 +7,10 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.concurrent.ConcurrentHashMap;
 
+/* Inspiration and explicit code from following sources:
+ * https://www.geeksforgeeks.org/introducing-threads-socket-programming-java/
+ * http://pirate.shu.edu/~wachsmut/Teaching/CSAS2214/Virtual/Lectures/chat-client-server.html
+ *  */
 public class ServerGameOutputThread implements Runnable{
 	private ServerGame _server = null;
 	private Socket _socket = null;
