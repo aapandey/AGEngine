@@ -1,8 +1,10 @@
 package AGEngine.core;
 
 import java.awt.Rectangle;
+import AGEngine.objects.*;
 import java.awt.Shape;
 
+import AGEngine.objects.IRenderable;
 import processing.core.PApplet;
 
 /* Inspiration and explicit code from following sources:
