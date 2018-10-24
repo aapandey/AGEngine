@@ -4,6 +4,8 @@ import java.awt.Rectangle;
 import java.awt.geom.Area;
 import java.util.List;
 
+import AGEngine.objects.ICollidable;
+import AGEngine.objects.IMovable;
 import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PVector;
