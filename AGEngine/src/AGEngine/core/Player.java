@@ -1,6 +1,7 @@
 package AGEngine.core;
 
 import java.awt.Rectangle;
+import java.awt.Shape;
 import java.awt.geom.Area;
 import java.util.List;
 
@@ -17,7 +18,7 @@ import processing.core.PVector;
  * https://forum.processing.org/two/discussion/23004/keyboard-input-for-movement-control-gets-stuck
  * https://www.openprocessing.org/sketch/92234
  *  */
-public class Player extends GameObject implements IMovable, ICollidable{
+public class Player extends GameObject implements IMovable{
 	
 	/** Vector that describes the velocity of the player object */
 	private PVector _velocity;
@@ -154,7 +155,6 @@ public class Player extends GameObject implements IMovable, ICollidable{
 	}
 
 	/**Check if there has been any collision */
-	@Override
 	public boolean isColliding() {
 		for(GameObject gObject : _gameObjects) {
 			if(this.gameObjectShape.getBounds2D().intersects(gObject.getGameObjectShape().getBounds2D())) {
