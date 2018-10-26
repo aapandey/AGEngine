@@ -54,11 +54,13 @@ public class MovingPlatform extends GameObject implements ICollidable, IRenderab
 	@Override
 	public void display() {
 		// TODO Auto-generated method stub
-		engine.pushMatrix();
-		engine.noStroke();
-	    engine.fill(color.x, color.y, color.z);
-	    engine.rect(position.x, position.y, size.x, size.y);
-	    engine.popMatrix();
+		if(isVisible()) {
+			engine.pushMatrix();
+			engine.noStroke();
+		    engine.fill(color.x, color.y, color.z);
+		    engine.rect(position.x, position.y, size.x, size.y);
+		    engine.popMatrix();
+		}
 	}
 
 
@@ -67,7 +69,8 @@ public class MovingPlatform extends GameObject implements ICollidable, IRenderab
 		// TODO Auto-generated method stub
 		position.add(velocity);
 		// update shape manually
-		((Rectangle)gameObjectShape).translate((int)velocity.x, (int)velocity.y);
+		((Rectangle)gameObjectShape).x = (int)position.x;
+		((Rectangle)gameObjectShape).y = (int)position.y;
 		step();
 	}
 	

@@ -36,10 +36,12 @@ public class StaticPlatform extends GameObject implements ICollidable, IRenderab
 	@Override
 	public void display() {
 		// TODO Auto-generated method stub
-		engine.pushMatrix();
-	    engine.fill(color.x, color.y, color.z);
-	    engine.rect(position.x, position.y, size.x, size.y);
-	    engine.popMatrix();
+		if(isVisible()) {
+			engine.pushMatrix();
+		    engine.fill(color.x, color.y, color.z);
+		    engine.rect(position.x, position.y, size.x, size.y);
+		    engine.popMatrix();
+		}
 	}
 
 	@Override

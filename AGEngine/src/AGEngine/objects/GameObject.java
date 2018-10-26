@@ -12,7 +12,7 @@ public abstract class GameObject implements Serializable{
 	protected boolean visible;
 	
 	public enum Tag{
-		PLAYER, STATIC_PLATFORM, DYNAMIC_PLATFORM, OTHER, DEATH_ZONE
+		PLAYER, STATIC_PLATFORM, DYNAMIC_PLATFORM, OTHER, DEATH_ZONE, OTHER_PLAYER
 	}
 	
 	public Tag objectTag;

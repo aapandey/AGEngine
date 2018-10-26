@@ -25,7 +25,7 @@ public class AsyncClient implements Runnable{
 	// Server Address to connect to
 	protected String address;
 
-	protected AsyncClient(String address, int serverPortNumber) 
+	public AsyncClient(String address, int serverPortNumber) 
 	{
 		this.portNumber = serverPortNumber;
 		this.address = address;
@@ -45,7 +45,6 @@ public class AsyncClient implements Runnable{
 		// List of game objects to accept from server
 
 		// Check the id of input objects
-		int connectionID = -1;
 		
 		while (true) {
 			while (true) {
