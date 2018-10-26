@@ -29,10 +29,6 @@ public class AsyncServer implements Runnable
 	// This will work as unique client identifier 
 	protected int totalClientCount;
 
-	public enum NetworkTag {
-		OBJECT, START_TAG, END_TAG
-	}
-
 	public AsyncServer(int serverPort) 
 	{
 		this.portNumber = serverPort;
@@ -98,7 +94,7 @@ public class AsyncServer implements Runnable
 
 		while (true) 
 		{
-			//synchronized (GameObjectList) 
+			//synchronized over a game object list 
 			{
 				// Implementation to pass objects to client
 			}

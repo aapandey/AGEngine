@@ -10,6 +10,7 @@ import AGEngine.objects.GameObject;
 import AGEngine.objects.ICollidable;
 import AGEngine.objects.IMovable;
 import AGEngine.objects.IRenderable;
+import AGEngine.objects.GameObject.Tag;
 import processing.core.PVector;
 
 /* Inspiration and explicit code from following sources:
@@ -81,57 +82,77 @@ public class Player extends GameObject implements ICollidable, IRenderable, IMov
 		_left = _right = _jump = false;
 	}
 	
+	public void copy(Player other) {
+		this.color = other.color;
+		this.position = other.position;
+		this.size = other.size;
+		this.velocity = other.velocity;
+		this.gravity = other.gravity;
+		this.gameObjectShape = other.gameObjectShape;
+		this.visible = other.visible;
+		this.objectTag = other.objectTag;
+		this.objectID = other.objectID;
+	}
+	
 	@Override
 	public void display() {
 		// TODO Auto-generated method stub
-		engine.pushMatrix();
-		engine.noStroke();
-	    engine.fill(color.x, color.y, color.z);
-	    engine.rect(position.x, position.y, size.x, size.y);
-	    engine.popMatrix();
+		if(isVisible()) {
+			engine.pushMatrix();
+			engine.noStroke();
+		    engine.fill(color.x, color.y, color.z);
+		    engine.rect(position.x, position.y, size.x, size.y);
+		    engine.popMatrix();
+		}
 	}
 	
 
 	@Override
 	public void updatePosition() {
 		// TODO Auto-generated method stub
-		PVector vel = new PVector(0, 0);
-		if(connectedObject != null)
-		{		
-			if(connectedObject.getObjectTag() == Tag.DYNAMIC_PLATFORM) {
-				vel.add(((MovingPlatform)connectedObject).getVelocity());
+		if(getObjectTag() != Tag.OTHER_PLAYER) {
+			PVector vel = new PVector(0, 0);
+			if(connectedObject != null)
+			{		
+				if(connectedObject.getObjectTag() == Tag.DYNAMIC_PLATFORM) {
+					vel.add(((MovingPlatform)connectedObject).getVelocity());
+				}
 			}
+			
+			switch (state) 
+			{
+			case IN_AIR:
+				vel.add(gravity);
+				if(_left) {
+					vel.add(-velocity.x, 0);
+				}
+				if(_right) {
+					vel.add(velocity.x, 0);
+				}
+				break;
+			case ON_PLATFORM:
+				if(_left) {
+					vel.add(-velocity.x, 0);
+				}
+				if(_right) {
+					vel.add(velocity.x, 0);
+				}
+				if(_jump) {
+					vel.add(0, velocity.y);
+					state = PlayerStates.IN_AIR;
+				}
+				break;
+			}
+			
+			position.add(vel);
+			position.x = Math.min(Math.max(position.x, 0), engine.get_resolution().x);
+			//Check if the player has dropped to death
+			if(position.y > engine.get_resolution().y)
+				reSpawn();
+			// update shape manually
+			((Rectangle)gameObjectShape).x = (int)position.x;
+			((Rectangle)gameObjectShape).y = (int)position.y;
 		}
-		
-		switch (state) 
-		{
-		case IN_AIR:
-			vel.add(gravity);
-			if(_left) {
-				vel.add(-velocity.x, 0);
-			}
-			if(_right) {
-				vel.add(velocity.x, 0);
-			}
-			break;
-		case ON_PLATFORM:
-			if(_left) {
-				vel.add(-velocity.x, 0);
-			}
-			if(_right) {
-				vel.add(velocity.x, 0);
-			}
-			if(_jump) {
-				vel.add(0, velocity.y);
-				state = PlayerStates.IN_AIR;
-			}
-			break;
-		}
-		
-		position.add(vel);
-		// update shape manually
-		((Rectangle)gameObjectShape).x = (int)position.x;
-		((Rectangle)gameObjectShape).y = (int)position.y;
 	}
 
 	@Override
