@@ -33,6 +33,17 @@ public class StaticPlatform extends GameObject implements ICollidable, IRenderab
 		visible = true;
 	}
 	
+	public StaticPlatform(StaticPlatform other, Engine engine) {
+		this.color = other.color;
+		this.position = other.position;
+		this.size = other.size;
+		this.gameObjectShape = other.gameObjectShape;
+		this.visible = other.visible;
+		this.objectTag = other.objectTag;
+		this.objectID = other.objectID;
+		this.engine = engine;
+	}
+	
 	@Override
 	public void display() {
 		// TODO Auto-generated method stub

@@ -1,3 +1,5 @@
+# Attached are the .rar files of all sections of assignment 2. All sections have been implemented in a single project. Extract the project from rar file and open it using Eclipse. I have used Eclipse Oxygen for development.
+
 # AGEngine
 
 AGEngine
@@ -37,12 +39,11 @@ This will set up the environment for development
 
 ## Running the tests
 
-In order to test all the functionality of Assignment 1
-Section 1 - Compile AGEngine.core.MainGameLoop.java then run the AGEngine.core.MainGameLoop using eclipse(no parameters required)
+In order to test all the functionality of Assignment 2
+All Section : Run SceneManager.java and pass two arguments, "server"/"client" to create either a server or client and another as "object"/"string" to pass the gameObjects as through objects or string. This is required only when starting as server. For client, just pass two arguments first being "client" and other an integer to signify client id. 
 
-Section 2 and 3 - Compile and run the AGEngine.network.SampleServer.java(no arguments required) and then run AGEngine.network.SampleClient.java(1 integer argument expected). For multple clients create new instances of SampleClient.java and pass different command line integer paramters to distinguish between them
-
-Section 4 - Compile and run the AGEngine.asynchronous.network.ServerGame.java(no arguments required) to create a server and then connect clients by running multiple instances of AGEngine.asynchronous.network.ClientGame.java(no arguments required).
+Server needs to be created first before creating any client.
+Any number of clients can then be created
 
 ### Break down into end to end tests
 

@@ -13,12 +13,12 @@ public abstract class Manager {
 		this.engine = engine;
 	}
 	
-	public abstract List<GameObject> sendDataToClient(int connection_id);
+	public abstract List<GameObject> sendDataToClient();
 
 	public abstract GameObject sendDataToServer();
 
-	public abstract void getDataFromServer(List<GameObject> dataFromServer, int connection_id);
+	public abstract void getDataFromServer(List<GameObject> dataFromServer);
 
-	public abstract void getDataFromClient(GameObject dataFromClient, int connection_id);
+	public abstract void getDataFromClient(GameObject dataFromClient);
 	
 }

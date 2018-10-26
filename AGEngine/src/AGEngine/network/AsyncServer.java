@@ -7,6 +7,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.*;
 
+import AGEngine.core.Manager;
+import AGEngine.objects.GameObject;
+
 /* Inspiration and explicit code from following sources:
  * https://www.geeksforgeeks.org/introducing-threads-socket-programming-java/
  * http://pirate.shu.edu/~wachsmut/Teaching/CSAS2214/Virtual/Lectures/chat-client-server.html
@@ -28,10 +31,13 @@ public class AsyncServer implements Runnable
 	protected ArrayList<Socket> connections;
 	// This will work as unique client identifier 
 	protected int totalClientCount;
+	// manger to call handling operations
+	protected Manager manager;
 
-	public AsyncServer(int serverPort) 
+	public AsyncServer(int serverPort, Manager manager) 
 	{
 		this.portNumber = serverPort;
+		this.manager = manager;
 		this.connections = new ArrayList<Socket>();
 		this.totalClientCount = 0;
 
@@ -58,7 +64,8 @@ public class AsyncServer implements Runnable
 			ioe.printStackTrace();
 		}
 		
-		// List of game objects to accept from the client
+		// game object to accept from the client
+		GameObject data;
 
 		while (true) 
 		{
@@ -67,6 +74,10 @@ public class AsyncServer implements Runnable
 				try 
 				{
 					// implementation to accept objects from clients
+					data = (GameObject)ois.readObject();
+					if(data != null) {
+						break;
+					}
 				}
 				catch (Exception e) 
 				{
@@ -75,6 +86,10 @@ public class AsyncServer implements Runnable
 				}
 			}
 			// implementation to handle server getting the list from client
+			if(data != null) {
+				manager.getDataFromClient(data);
+			}
+			data = null;
 		}
 	}
 
@@ -91,12 +106,22 @@ public class AsyncServer implements Runnable
 		}
 
 		// List of game objects to pass to the client
+		List<GameObject> list = manager.sendDataToClient();
 
 		while (true) 
 		{
-			//synchronized over a game object list 
+			synchronized(list) 
 			{
 				// Implementation to pass objects to client
+				if(list != null && list.size() > 0) {
+					for(int i = 0; i < list.size(); i++) {
+						try {
+							ous.writeObject(list.get(i));
+						}catch(IOException e) {
+							e.printStackTrace();
+						}
+					}
+				}
 			}
 		}
 	}
