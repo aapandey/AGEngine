@@ -89,11 +89,11 @@ public class Engine extends PApplet {
 	}
 	
 	public void setupClient(String address, int port) {
-		_client = new AsyncClient(address, port);
+		_client = new AsyncClient(address, port, _manager);
 	}
 	
 	public void setupServer(int port) {
-		_server = new AsyncServer(port);
+		_server = new AsyncServer(port, _manager);
 	}
 	
 	public void setup() {

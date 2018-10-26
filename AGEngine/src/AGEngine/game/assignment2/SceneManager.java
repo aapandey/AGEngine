@@ -158,7 +158,7 @@ public class SceneManager extends Manager{
 	}
 
 	@Override
-	public List<GameObject> sendDataToClient(int connection_id) {
+	public List<GameObject> sendDataToClient() {
 		// TODO Auto-generated method stub
 		List<GameObject> list = new CopyOnWriteArrayList<>();
 		synchronized (gameObjectsInScene) {
@@ -176,7 +176,7 @@ public class SceneManager extends Manager{
 	}
 
 	@Override
-	public void getDataFromServer(List<GameObject> dataFromServer, int connection_id) {
+	public void getDataFromServer(List<GameObject> dataFromServer) {
 		// TODO Auto-generated method stub
 		for(GameObject gameObject: dataFromServer) {
 			int position = getObjectPositionInList(gameObject);
@@ -186,13 +186,31 @@ public class SceneManager extends Manager{
 				}
 			}
 			else {
-				addObjectInList(gameObject);
+				GameObject newObject = null;
+				switch(gameObject.getObjectTag()) {
+				case DEATH_ZONE:
+				case STATIC_PLATFORM:
+					newObject = new StaticPlatform((StaticPlatform)gameObject, engine);
+					break;
+				case OTHER_PLAYER:
+					newObject = new Player((Player)gameObject, engine, (SpawnPoint)spawnPoint);
+					break;
+				case DYNAMIC_PLATFORM:
+					newObject = new MovingPlatform((MovingPlatform)gameObject, engine);
+					break;
+				case OTHER:
+					newObject = new SpawnPoint(new PVector(gameObject.getPosition().x, gameObject.getPosition().y, gameObject.getPosition().z));
+					break;
+				default:
+					break;
+				}
+				addObjectInList(newObject);
 			}
 		}
 	}
 
 	@Override
-	public void getDataFromClient(GameObject dataFromClient, int connection_id) {
+	public void getDataFromClient(GameObject dataFromClient) {
 		// TODO Auto-generated method stub
 		if(dataFromClient != null) {
 			int position = getObjectPositionInList(dataFromClient);

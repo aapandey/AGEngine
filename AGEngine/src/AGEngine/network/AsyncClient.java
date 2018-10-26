@@ -4,8 +4,13 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
+
+import AGEngine.core.Manager;
+import AGEngine.objects.*;
 
 /* Inspiration and explicit code from following sources:
  * https://www.geeksforgeeks.org/introducing-threads-socket-programming-java/
@@ -24,11 +29,14 @@ public class AsyncClient implements Runnable{
 	protected int portNumber;
 	// Server Address to connect to
 	protected String address;
+	// manger to call handling operations
+	protected Manager manager;
 
-	public AsyncClient(String address, int serverPortNumber) 
+	public AsyncClient(String address, int serverPortNumber, Manager manager) 
 	{
 		this.portNumber = serverPortNumber;
 		this.address = address;
+		this.manager = manager;
 	}
 
 	protected void readFromServer() {
@@ -43,13 +51,20 @@ public class AsyncClient implements Runnable{
 		}
 		
 		// List of game objects to accept from server
-
-		// Check the id of input objects
+		List<GameObject> list = new ArrayList<>();
 		
 		while (true) {
 			while (true) {
 				try {
 					// implementation to accept from server
+					GameObject gameObject;
+					gameObject = (GameObject)ois.readObject();
+					if(gameObject != null) {
+						list.add(gameObject);
+					}
+					else {
+						break;
+					}
 				}
 				catch (Exception e) 
 				{
@@ -59,6 +74,10 @@ public class AsyncClient implements Runnable{
 				}
 			}
 			// implementation to handle client getting game objects from server
+			if(list != null && list.size() > 0) {
+				manager.getDataFromServer(list);
+			}
+			list = null;
 		}
 	}
 
@@ -77,7 +96,11 @@ public class AsyncClient implements Runnable{
 		{
 			try {
 				// Implementation to send data to server
-				ous.reset();
+				GameObject data = manager.sendDataToServer();
+				if(data != null) {
+					ous.writeObject(data);
+					ous.reset();
+				}
 			} catch (IOException ioe) 
 			{
 				System.out.println("Error sending output stream: " + ioe);

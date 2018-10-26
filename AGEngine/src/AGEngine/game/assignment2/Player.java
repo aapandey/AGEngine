@@ -82,6 +82,20 @@ public class Player extends GameObject implements ICollidable, IRenderable, IMov
 		_left = _right = _jump = false;
 	}
 	
+	public Player(Player other,Engine engine, SpawnPoint spawnpoint) {
+		this.color = other.color;
+		this.position = other.position;
+		this.size = other.size;
+		this.velocity = other.velocity;
+		this.gravity = other.gravity;
+		this.gameObjectShape = other.gameObjectShape;
+		this.visible = other.visible;
+		this.objectTag = other.objectTag;
+		this.objectID = other.objectID;
+		this.engine = engine;
+		this._spawnPoint = spawnpoint;
+	}
+	
 	public void copy(Player other) {
 		this.color = other.color;
 		this.position = other.position;

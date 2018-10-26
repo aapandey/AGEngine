@@ -51,6 +51,18 @@ public class MovingPlatform extends GameObject implements ICollidable, IRenderab
 		visible = true;
 	}
 	
+	public MovingPlatform(MovingPlatform other, Engine engine) {
+		this.color = other.color;
+		this.position = other.position;
+		this.size = other.size;
+		this.velocity = other.velocity;
+		this.gameObjectShape = other.gameObjectShape;
+		this.visible = other.visible;
+		this.objectTag = other.objectTag;
+		this.objectID = other.objectID;
+		this.engine = engine;
+	}
+	
 	@Override
 	public void display() {
 		// TODO Auto-generated method stub
