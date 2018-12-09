@@ -21,4 +21,9 @@ public class EventEnums {
 	{
 		PlayerDies, PlayerCollision, PlayerSpawn, NULL
 	}
+	
+	// Event Priorities
+	public enum EventPriorities {
+		Low, Med, High
+	}
 }
