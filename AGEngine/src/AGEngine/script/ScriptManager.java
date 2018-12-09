@@ -6,6 +6,9 @@ import javax.script.*;
  * Class to create and manage a JavaScript engine.
  */
 
+/* Inspiration and explicit code from following sources:
+ * Code shared in Class Moodle
+ *  */
 public class ScriptManager {
 	/* The javax.script JavaScript engine used by this class. */
 	private static ScriptEngine js_engine = new ScriptEngineManager().getEngineByName("JavaScript");

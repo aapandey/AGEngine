@@ -1,5 +1,8 @@
 package AGEngine.script;
 
+/* Inspiration and explicit code from following sources:
+ * Code shared in Class Moodle
+ *  */
 public class TestObject {
 	public static int GUID = 0;
 

@@ -1,4 +1,4 @@
-# Attached are the .rar files of all sections of assignment 2. All sections have been implemented in a single project. Extract the project from rar file and open it using Eclipse. I have used Eclipse Oxygen for development.
+# Attached are the .rar files of all sections of Assignment 4. All sections have been implemented in a single project. Extract the project from rar file and open it using Eclipse. I have used Eclipse Oxygen for development.
 
 # AGEngine
 
@@ -39,11 +39,11 @@ This will set up the environment for development
 
 ## Running the tests
 
-In order to test all the functionality of Assignment 2
-All Section : Run SceneManager.java and pass two arguments, "server"/"client" to create either a server or client and another as "object"/"string" to pass the gameObjects as through objects or string. This is required only when starting as server. For client, just pass two arguments first being "client" and other an integer to signify client id. 
-
-Server needs to be created first before creating any client.
-Any number of clients can then be created
+In order to test all the functionality of Assignment 4
+Section 1 Scripting : Run ScriptIntegrationExample.java in AGEngine.script package. 
+Section 2 & 3: 
+To run Space Invaders run SpaceController.java in AGEngine.games.invader package. No parameter required.
+To run Snake run SnakeController.java in AGEngine.games.snake package. No parameter required.
 
 ### Break down into end to end tests
 

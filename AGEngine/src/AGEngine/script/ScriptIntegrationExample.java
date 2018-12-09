@@ -1,5 +1,8 @@
 package AGEngine.script;
 
+/* Inspiration and explicit code from following sources:
+ * Code shared in Class Moodle
+ *  */
 public class ScriptIntegrationExample {
 	static TestObject go1 = new TestObject();
 	static TestObject go2 = new TestObject();
